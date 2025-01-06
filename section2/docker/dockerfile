@@ -1,0 +1,48 @@
+# Base image for PHP
+FROM php:8.1-fpm
+
+# Set working directory
+WORKDIR /var/www
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    curl \
+    git \
+    nginx \
+    supervisor
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy Laravel application code to container
+COPY . /var/www
+
+# Set file permissions
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
+# Expose application port
+EXPOSE 80
+
+# Add Nginx configuration
+COPY docker/nginx.conf /etc/nginx/sites-available/default
+
+# Add Supervisor configuration
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Install Laravel dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Entry point
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
