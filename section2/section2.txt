@@ -1,0 +1,13 @@
+9. A Postgres query is running slower than expected. Explain your approach to troubleshooting it.
+to trouble shoot a slow query my approach would be as below;
+        - understand the query context- here i would obtain the query and understand the expected outcome. I would also check the frequency of execution and the impact scope if for example its a single user or multi users affected.
+        -analyze the query execution plan- I would Enable EXPLAIN (ANALYZE): Run the query with EXPLAIN (ANALYZE) to get a detailed execution plan showing how PostgreSQL executes the query and its time breakdown.
+        - look for bottlenecks eg sequential scans instead of index scans, joins that process too many rows etc
+        -evaluate the indexing for example : Ensure appropriate indexes exist on columns used in WHERE, JOIN, GROUP BY, and ORDER BY clauses.
+        -optimize the query itself by reviewing the query logic and lveraging query caching if its a repetitive query.
+        -analyze the table statistics and tune if necessary by ensuring PostgreSQL's query planner has up-to-date table statistics.
+        -monitor resource usage by checking the system load by using pg_stat_activity to see all running queries and identify lock contention.
+        -i would also evaluate parallelism to Check if the query benefits from parallelism by examining EXPLAIN (ANALYZE) and PostgreSQL’s parallel query settings.
+        -i would also check external factors such as concurrent queries,network latency or disk performance.
+
+        

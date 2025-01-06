@@ -1,0 +1,70 @@
+13.Describe a time you improved the performance of an infrastructure system. What challenges did you face?
+As a Cloud/DevOps Engineer, I was tasked with improving the performance of our CI/CD pipeline for a microservices-based application deployed on AWS. The existing pipeline, built on Jenkins, was taking over 40 minutes to execute, causing delays in development and deployments. Developers frequently faced bottlenecks, especially when multiple teams pushed changes simultaneously.
+
+Steps Taken
+---Analyze the Pipeline Bottlenecks:
+Reviewed Jenkins logs and build execution times for various stages.
+Identified that unit tests and container image builds were consuming the majority of the time.
+Observed that sequential builds caused queueing during high workloads.
+
+--Parallelized the Build Process:
+Broke the monolithic pipeline into stages that could run in parallel:
+Code linting, unit tests, and dependency checks ran simultaneously.
+Container builds and security scans were triggered only if earlier stages passed.
+
+--Optimize Docker Image Builds:
+Used multi-stage builds to reduce the size and complexity of Docker images.
+Leveraged Docker layer caching in Jenkins to reuse unchanged layers, reducing build times significantly.
+
+--Scale Jenkins Infrastructure:
+Migrated Jenkins workers to an auto-scaling group on AWS.
+Used spot instances to optimize costs while maintaining scalability.
+Configured a pre-warmed AMI with commonly used dependencies to speed up worker initialization.
+
+--Introduce Test Sharding:
+Split the test suite into smaller shards and executed them in parallel using multiple workers.
+Added dynamic test distribution to balance the load evenly across nodes.
+
+--Improve Artifact Storage:
+Switched from a local file server to Amazon S3 for storing build artifacts, allowing faster retrieval and better scalability.
+
+--Monitor and Iterate:
+Integrated Prometheus and Grafana to monitor pipeline performance and resource usage.
+Set alerts for unusually long build times or worker saturation.
+
+
+Challenges Faced
+--Legacy Dependencies:
+Some microservices relied on outdated dependencies that weren’t compatible with modern build tools.
+Resolution: Worked with the development team to prioritize updates and modularize codebases.
+
+--Developer Resistance:
+Developers were skeptical about pipeline changes disrupting workflows.
+Resolution: Conducted a phased rollout with sandbox environments to demonstrate improvements.
+
+--Resource Contention:
+During peak hours, even with auto-scaling, resource contention occasionally occurred.
+Resolution: Implemented job prioritization to ensure critical builds were processed first.
+
+--Unstable Spot Instances:
+Spot instances occasionally terminated during critical stages.
+Resolution: Added fallback to on-demand instances for critical jobs and implemented checkpointing to resume builds seamlessly.
+
+
+Outcome
+-The CI/CD pipeline execution time was reduced from 40 minutes to 15 minutes on average.
+-Parallel processing increased throughput, enabling multiple teams to deploy concurrently without delays.
+-Docker image build times decreased by 60% due to layer caching and multi-stage builds.
+-Developer productivity improved significantly, with faster feedback loops and fewer bottlenecks.
+
+
+14.How do you prioritize tasks when multiple urgent issues arise?
+ I have a systematic approach for such scenarios;
+        1. i asses and understand each task and its timelines.
+        2. i categorize and rank based timeline or impact.
+        3.communicate with my supervisor on whcih is needed top be delivered first based on the einshower matrix eg urgent and im,portanrt or urgent and not important.
+        4. i focus non quick wqins those that are easy to tackle.
+        5. use tools for task tracking.
+        6. monitor and follow up with my manager.
+
+        
