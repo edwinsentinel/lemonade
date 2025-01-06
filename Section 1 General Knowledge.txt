@@ -1,0 +1,110 @@
+1. What are the key security concerns when it comes to DevOps?
+
+-Given that devops encompasses development,operations and security into one streaml8ined process,this integration does introduce various security challenges when it comes to security. This includes the following;
+
+a) Inadequate Monitoring- limited visibility due to a lack of centralized monitoring and logging can delay threat detection.Moreover, insufficient incident response i.e failure to implement real-time alerting and response mechanism increases the risk
+b) Access Management issues- Here am referring to either overpriviledged accounts or poor credential Management. overpriviledged accounts moreso to developers and tools may have excessive permissions increasinbg the attack surface. Some developers tend to hardcode secrets,API keys and passwords in repos which pose a security risk.
+c) Code vulnerabilty- this can be introduced through the CI/CD pipeline if the code is not thoroughly tested for security. Also Dependencies from open source libraries and third party components might have vulnerabilities
+d) Insufficent security automation- here nmost devs tend to use manual processes which can lead to delays and oversight inb critical gaps and vulnerabilities. Also devs tend to delay patches during vulnerabilty remediation wich can result in the unpatched systems being exploited.
+e) container and microservice security- using of unverified or outdated images introduces risks to the systems or applications. Moreover if the orcherstation used eg kubernetes is poorly secured can lead to breaches.
+f) compliancxe and regulatory challenges- failure to comply with data protection  regulations like GDPR or HIPAA can lead to penalties.
+g) supply chain attacks- this would hgappen if compromised Dependencies are used or an attack on third party libraries can cascade into youyr application. Also on the same we could have repo poisoning where  Malicious actors can inject malicious packages into public repositories.
+
+Some of the mitigation strategies  for all the above wouyld be as below;
+-Implement Shift-Left Security by integrating security early in the development lifecycle.
+-Use automated tools for static application security testing (SAST), dynamic application security testing (DAST), and software composition analysis (SCA).
+-Enforce strict access controls with least privilege principles and secure secret management.
+-Conduct regular audits and compliance checks.
+-Monitor and secure CI/CD pipelines to detect and prevent unauthorized changes.
+-Foster a DevSecOps culture to prioritize security as a shared responsibility.
+
+2.How do you design a self-healing distributed service?
+designing a self healing distributed service involves a coupl of steps to ensure that the service or system is capable of detecting,mitigating and recovering from failure autonomously. I would do the below;
+
+a) I would ensure the architecture is robust. What i mean is i would use a microservice design to decompose the system into idnependent services to isolate failure as well as ensure services communicate effciently thorugh well-defined APIs. I would also Design services to be stateless or minimally stateful, enabling easy scaling and failover.
+I would use message queues or event-driven architectures to decouple services, allowing them to recover independently.
+
+b) I would implement fault detection through regular health checks using heartbeat signals and health endpoints. I would add distributed tracing and monitoring by tools like open tlementry to monitor inter-serrvice communication.
+
+c) I would enable automated recovery by using self-healing mechanism either use circuit breakers like hystrix to prevent failures cascading and also Implement retry logic with exponetial backoff for transient errors.
+
+d) I would ensure resiliency by deploying the service in multiple availabilty zones or regions to enhance redundancy as well a suse load balancers to distribute traffic and failover automatically.
+
+e) I would setup monotring and observabilty with tools like grafana where I would Correlate logs using unique request IDs across distributed services and Visualize system health in real-time with dashboards.
+
+f) I would Automatically scale resources up or down based on demand (e.g., horizontal pod autoscalers in Kubernetes) as well as Design services to adapt dynamically to changing loads and failures.
+
+g) I would use tools like chaos monkey to test scenarios such as node failures, network partitions, and degraded performance.
+
+
+
+3. Describe a centralized logging solution and you can implement logging for a  microservice architecture.
+- A centralised logging solution collects logs from all components of a system, consolidates them in a central location, and provides tools for analysis, searching, and visualization. This approach is particularly useful in microservice architectures where logs are scattered across many services running on multiple nodes. Components of a centralised logging include;
+        -log collection agents eg fluentd
+        -centralized storage eg elasticsearch
+        -log processing pipeline eg fluentd or logstash
+        -visualization like kibana or grafana
+        -log forwarding eg splunk
+
+ -implementing the above in a scenario of a microservice arch would be as below;
+    -define the logging standards ie most common is the JSON format as well as include contexual information eg pods, service nbame correlation ID ,log level etc
+    -integrate the libraries based on microservice design languiage eg for node js would be winston
+    -install log collectors eg fluentd
+    -configure your central storage
+    -implement correlation to trace requests across the microservices
+    -create dashboards and alerts.
+    secure the infra by either tls for log in transit or RBAC for log access.
+
+
+
+4. What are some of the reasons for choosing Terraform for DevOps?
+ some of the reasons to use terraform include;
+    -mulitcloud support
+    -state management
+    -parallelism
+    -immutable infra
+    -version control to track changes
+    -community and ecosystem
+    -cost Management
+    -plan and apply workflow.
+
+5.  How would you design and implement a secure CI/CD architecture for microservice deployment using GitOps? Take a scenario of 20 microservices developed usingdifferent languages and deploying to an orchestrated environment like Kubernetes.(You can add a low-level architectural diagram)
+I would design the CI/CD as below;
+    - Have Developers commit changes to Git repositories (e.g., GitHub/GitLab)as well as Branch protections enforce pull request (PR) reviews and approvals.
+    -for the CI i would have github actions and the steps would be as below;
+                                                -Linting and static code analysis.
+                                                -Unit tests and integration tests.
+                                                -Container image build using Docker/Podman.
+                                                -Image security scanning (e.g., Trivy, AquaSec).
+                                                -Push images to a container registry (e.g., Amazon ECR, Docker Hub).
+    -container registry to store the versioned and signed images as well as to enforce the signing i would use notary.
+    -I would have a separate repo for the k8s manifests,helm charts and configs.
+    - I would incorprate argocd to watch the repos for changes.
+    - for the k8s cluster for the 20 mocroservices i would have  security features such as RBAC,pod security polices as well as observabilty metrics prometheus for metrics,loki for logs etc
+    - for the secrets i woulkd use hashi vvault.
+    -finally i would havbe grafana for the dashboards. if this is long i would just use new relic to quicken and reduce costs.
+
+
+6.You notice React Native builds are failing intermittently. What’s your debugging process?
+To debug a react native build failing intermittently i would do the below;
+    -Check the build system's logs (e.g., CI/CD pipeline output) for error messages or warnings.
+    -Identify if the failures occur during a specific build step (e.g., dependency installation, compilation, or testing).
+    -Determine if failures are platform-specific (iOS or Android) or affect both.
+    -Note if they occur under certain conditions, such as Specific branches or commits.
+    -Run the build multiple times to confirm it fails intermittently.
+    -Ensure the build agents or environments are consistent and have sufficient resources (CPU, memory, disk space).
+    -Try to reproduce the failure locally in a clean environment.
+    -Share findings with the team to gather additional insights.
+
+    
+
+
+
+
+
+
+
+                                            
+
+
+
