@@ -1,0 +1,20 @@
+11. How would you set up monitoring for the React Native mobile app’s API endpoints?
+ to setup monitoring for react native I would approach it as below;
+        1. setup monitoring goals. ie what are we going to monitor things like availabuilty,performance,error rates or the usage
+        2. instrument the mobile app- what i mean is Use monitoring libraries like Sentry, Datadog RUM, or Firebase Crashlytics for performance and error tracking.
+        3. setup api monitoring tool eg psotman or new relic to monitor API health and performance externally.
+        4. log aggregation and analysis-Send logs from the mobile app to a centralized log aggregation service like Logstash, Fluentd, or CloudWatch Logs and ensure i include metadata eg app version,user id for better context.
+        5. performance monitoring by tracking response times effciency through new relic
+        6.alerts and notifications- i would Set up alerts for API downtime, high latency, or elevated error rates.
+
+
+12. Explain how you would debug high latency in the Node.js microservices.
+to debug a high latency in a microservice i would;
+        1. gather context- idnetify which endpoints are expereicning the latency as well as determine the issue consistency.
+        2.collect data on response times,error rates and request volumes.
+        3. i would simulate the load using psotmant and then Test the service independently to rule out issues caused by upstream or downstream dependencies.
+        4. i would Use structured logging tools like Winston or Pino to log request/response times and service interactions.
+        5. if no issue idnetified from above i would nowe check system resources eg cpu/memory usage by using top,htop to check and analyze the resources
+        6.check also if the issue is caused by database queries or external APIs for third party calls.
+        
+
